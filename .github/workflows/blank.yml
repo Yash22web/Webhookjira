@@ -1,28 +1,25 @@
-            - name: action-jira-linter
-  # You may pin to the exact commit or the version.
-  # uses: jira-tools/action-jira-linter@bd5a5cb246a3673d3defacd67c08a0eab9562954
-  uses: jira-tools/action-jira-linter@v1.0.1
-  with:
-    # Token used to update PR description and add labels. Can be passed in using {{ secrets.GITHUB_TOKEN }}
-    github-token: 
-    # JIRA username. Can be passed in using {{ secrets.JIRA_USER }}
-    jira-user: 
-    # API Token used to access the JIRA REST API. Must have read access to your JIRA Projects & Issues.
-    jira-token: 
-    # The subdomain of JIRA cloud that you use to access it. Ex: "https://your-domain.atlassian.net"
-    jira-base-url: 
-    # A regex to ignore running on certain branches, like production etc.
-    skip-branches: # optional, default is 
-    # A boolean if set to true, will skip adding lint comments for PR title.
-    skip-comments: # optional
-    # An `Integer` based on which action-jira-linter add a comment discouraging huge PRs. Is disabled by `skip-comments`
-    pr-threshold: # optional, default is 800
-    # Set this to true if you want action-jira-linter to validate the status of the detected jira issues
-    validate-issue-status: # optional
-    # A line-separated list of acceptable Jira issue statuses. You must provide a value for this if validate-issue-status is set to true
-Requires validate-issue-status to be set to true.
+name: Jira - GitHub integration tester
 
-    allowed-issue-statuses: # optional, default is In Progress
-    # Set this to true if you want action-jira-linter to fail the PR if it encounters an error
-    fail-on-error: # optional, default is true
-          
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
