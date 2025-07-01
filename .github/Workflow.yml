@@ -1,0 +1,24 @@
+name: Jira → GitHub integration tester
+
+on:
+  repository_dispatch:
+    types: ["jira_trigger"]
+
+jobs:
+  process-jira:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Acknowledge reception
+        run: |
+          echo "✅ Received repository_dispatch: ${{ github.event.action }}"
+          echo "Payload: ${{ toJson(github.event.client_payload) }}"
+
+      - name: Display fields
+        run: |
+          echo "Issue Key: ${{ github.event.client_payload.issueKey }}"
+          echo "Summary: ${{ github.event.client_payload.summary }}"
+          echo "Reporter: ${{ github.event.client_payload.reporter }}"
+
+      - name: Return 200 OK
+        run: echo "🎉 Done"
