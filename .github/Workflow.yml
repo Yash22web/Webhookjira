@@ -1,4 +1,4 @@
-name: Jira → GitHub integration tester
+name: Jira - GitHub integration tester
 
 on:
   repository_dispatch:
@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Acknowledge reception
         run: |
-          echo "✅ Received repository_dispatch: ${{ github.event.action }}"
+          echo "Received repository_dispatch: ${{ github.event.action }}"
           echo "Payload: ${{ toJson(github.event.client_payload) }}"
 
       - name: Display fields
@@ -21,4 +21,4 @@ jobs:
           echo "Reporter: ${{ github.event.client_payload.reporter }}"
 
       - name: Return 200 OK
-        run: echo "🎉 Done"
+        run: echo "Done"
